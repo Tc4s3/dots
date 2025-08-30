@@ -1,0 +1,22 @@
+[
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 29,
+                "origin_hash": "05f33c6ccdc9bb37131f8d318daa001b"
+            },
+            {
+                "type": 1,
+                "code": 125,
+                "origin_hash": "05f33c6ccdc9bb37131f8d318daa001b"
+            },
+            {
+                "type": 1,
+                "code": 51,
+                "origin_hash": "05f33c6ccdc9bb37131f8d318daa001b"
+            }
+        ],
+        "target_uinput": "keyboard"
+    }
+]

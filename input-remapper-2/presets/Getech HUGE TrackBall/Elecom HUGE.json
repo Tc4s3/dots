@@ -1,0 +1,28 @@
+[
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 277,
+                "origin_hash": "1b92aed994c7591541eff3e604212d5a"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Super_L+Tab",
+        "name": "Switch Between Most Recent Active Workspaces",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 278,
+                "origin_hash": "1b92aed994c7591541eff3e604212d5a"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L+Super_L+period",
+        "name": "Scroll Thru All Active Workspaces",
+        "mapping_type": "key_macro"
+    }
+]
