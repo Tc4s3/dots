@@ -1,0 +1,256 @@
+//NiriWM.Config
+// Spawn the wallpaper script on login
+
+input {
+    keyboard {
+        xkb {
+            // You can set rules, model, layout, variant and options.
+            // For more information, see xkeyboard-config(7).
+
+            // For example:
+            // layout "us,ru"
+            // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
+
+            // If this section is empty, niri will fetch xkb settings
+            // from org.freedesktop.locale1. You can control these using
+            // localectl set-x11-keymap.
+        }
+    }
+    // Next sections include libinput settings.
+    // Omitting settings disables them, or leaves them at their default values.
+    // All commented-out settings here are examples, not defaults.
+    touchpad {
+        // off
+        tap
+        // dwt
+        // dwtp
+        // drag false
+        // drag-lock
+        // natural-scroll
+        // accel-speed 0.2
+        // accel-profile "flat"
+        // scroll-method "two-finger"
+        // disabled-on-external-mouse
+    }
+
+    mouse {
+        // off
+        // natural-scroll
+        // accel-speed 0.2
+        // accel-profile "flat"
+        // scroll-method "no-scroll"
+    }
+    focus-follows-mouse max-scroll-amount="50%"
+}
+
+/-output "eDP-1" {
+    // Uncomment this line to disable this output.
+    // off
+
+    // Resolution and, optionally, refresh rate of the output.
+    // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
+    // If the refresh rate is omitted, niri will pick the highest refresh rate
+    // for the resolution.
+    // If the mode is omitted altogether or is invalid, niri will pick one automatically.
+    // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
+    mode "1920x1080@120.030"
+
+    // You can use integer or fractional scale, for example use 1.5 for 150% scale.
+    scale 1
+
+    // Transform allows to rotate the output counter-clockwise, valid values are:
+    // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
+    transform "normal"
+
+    // Position of the output in the global coordinate space.
+    // This affects directional monitor actions like "focus-monitor-left", and cursor movement.
+    // The cursor can only move between directly adjacent outputs.
+    // Output scale and rotation has to be taken into account for positioning:
+    // outputs are sized in logical, or scaled, pixels.
+    // For example, a 3840×2160 output with scale 2.0 will have a logical size of 1920×1080,
+    // so to put another output directly adjacent to it on the right, set its x to 1920.
+    // If the position is unset or results in an overlap, the output is instead placed
+    // automatically.
+    position x=1280 y=0
+}
+overview {
+    backdrop-color "#FAF4ED"
+    zoom 0.75
+    workspace-shadow {
+            on
+        }
+}
+layout {
+    gaps 14
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+    default-column-width { proportion 0.5; }
+    focus-ring {
+        off
+    }
+    border {
+        on 
+        width 4
+        urgent-color "#9b0000"
+        active-gradient from="#835AAD" to="#DADCFF" angle=60 relative-to="workspace-view" in="oklab"
+        inactive-gradient from="#B8BCFF" to="#CBCEFF" angle=60 relative-to="workspace-view" in="oklab"
+    }
+    struts {
+        top 12
+      //left 8
+        right 10
+        bottom 12
+    }
+    tab-indicator {
+        on
+        hide-when-single-tab
+        place-within-column
+        gap 8
+        width 4
+        length total-proportion=0.98
+        position "top"
+        gaps-between-tabs 8
+        corner-radius 8
+        inactive-gradient from="#835AAD" to="#E8D0FF" angle=90 in="oklab"
+        active-gradient from="#EFDEFF" to="#D7CBE5" angle=90 in="oklab"
+    }
+    shadow {
+        off
+        softness 50
+        spread 10
+        offset x=0 y=5
+        draw-behind-window true
+        color "#D4A9FF50"
+    }
+}
+
+spawn-at-startup "firefox"
+spawn-at-startup "koi"
+spawn-at-startup "konsole" 
+hotkey-overlay {
+    skip-at-startup
+}
+
+prefer-no-csd
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+window-rule {
+    match app-id=r#"mpv$"#
+    open-floating true
+}
+window-rule {
+    match app-id=r#"Bitwarden$"#
+    open-floating true
+}
+window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+    block-out-from "screen-capture"
+}
+window-rule {
+    geometry-corner-radius 0
+
+    clip-to-geometry true
+}
+binds {
+    //Audio & Media Shortcuts
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.01+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.01-"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+
+    // Brightness 
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
+
+    // Window Management
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    
+    Mod+H { focus-column-or-monitor-left; }
+    Mod+J { focus-window-or-workspace-down; }
+    Mod+K { focus-window-or-workspace-up; }
+    Mod+L { focus-column-or-monitor-right; }
+
+    Mod+Alt+H { move-column-left; }
+    Mod+Alt+J { move-window-down; }
+    Mod+Alt+K { move-window-up; }
+    Mod+Alt+L { move-column-right; }
+
+    Mod+Alt+BracketLeft { focus-column-first; }
+    Mod+Alt+BracketRight { focus-column-last; }
+    Mod+Ctrl+BracketLeft { move-column-to-first; }
+    Mod+Ctrl+BracketRight { move-column-to-last; }
+
+    Mod+Shift+H { focus-monitor-left; }
+    Mod+Shift+J { focus-monitor-down; }
+    Mod+Shift+K { focus-monitor-up; }
+    Mod+Shift+L { focus-monitor-right; }
+
+    Mod+Ctrl+H { move-column-to-monitor-left; }
+    Mod+Ctrl+J { move-column-to-workspace-down; }
+    Mod+Ctrl+K { move-column-to-workspace-up; }
+    Mod+Ctrl+L { move-column-to-monitor-right; }
+
+    Mod+W { toggle-column-tabbed-display; }
+    Mod+BracketLeft { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+Ctrl+Comma { consume-window-into-column; }
+    Mod+Ctrl+Period { expel-window-from-column; }
+
+    Mod+R { switch-preset-column-width; }
+    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Ctrl+R { reset-window-height; }
+
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+Ctrl+F { expand-column-to-available-width; }
+    
+    Mod+C { center-column; }
+    Mod+Ctrl+C { center-visible-columns; }
+
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    Mod+V       { toggle-window-floating; }
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+    Mod+Ctrl+Shift+S { screenshot; }
+    Mod+S { screenshot-screen; }
+    Mod+Ctrl+S { screenshot-window; }
+
+    Mod+O repeat=false { toggle-overview; }
+    Mod+x repeat=false { close-window; }
+
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+               
+    Mod+t { spawn "konsole" ; }
+        Mod+Shift+t { spawn "xfce4-terminal" ; }
+    Mod+m repeat=false { spawn "mullvad-vpn" ; }
+    Mod+b repeat=false { spawn "firefox" ; }
+    Mod+Space { spawn "dms" "ipc" "call" "spotlight" "toggle" ; } 
+    Mod+P repeat=false { spawn "bitwarden-desktop" ; }  
+    Mod+E repeat=false { spawn "nautilus" ; }
+    Mod+F1 { spawn "dms" "ipc" "settings" "open" ; }
+    
+    Mod+Shift+P { power-off-monitors; }
+    Ctrl+Alt+L { spawn "dms" "ipc" "lock" "lock" ; }
+    Ctrl+Alt+Delete { spawn "dms" "ipc" "powermenu" "open" ; } 
+}
+include "dms/outputs.kdl"
+include "dms/cursor.kdl"
